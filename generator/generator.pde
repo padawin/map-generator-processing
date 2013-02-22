@@ -3,15 +3,17 @@ int radius = 10;
 int spacement = 0;
 int width = 1000;
 int height = 1000;
+int nbCellsWidth = width / radius;
+int nbCellsHeight = height / radius;
 
 int nbActiveCells = 50;
-int[][] cells = new int[width / radius][height / radius];
+int[][] cells = new int[nbCellsWidth][nbCellsHeight];
 int[][] activeCells = new int[nbActiveCells][2];
 
 int minX = 0;
 int minY = 0;
-int maxX = width / radius - 2;
-int maxY = height / radius - 2;
+int maxX = nbCellsWidth - 1;
+int maxY = nbCellsHeight - 1;
 
 
 //states codes
@@ -53,8 +55,8 @@ void setup()
     }
 
     for (int act = 0 ; act < nbActiveCells ; act++) {
-        activeCells[act][0] = int(random(width / radius));
-        activeCells[act][1] = int(random(height / radius));
+        activeCells[act][0] = int(random(nbCellsWidth));
+        activeCells[act][1] = int(random(nbCellsHeight));
 
         cells[activeCells[act][0]][activeCells[act][1]] = drawColor;
     }
