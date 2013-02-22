@@ -226,12 +226,19 @@ int _getDistanceFromTheSea(int i, int j)
 boolean _isSurrounded(int i, int j)
 {
     int nbGround = 0;
+    int xPos, yPos;
 
     for (int x = -1 ; x < 2 ; x++ ) {
         for (int y = -1 ; y < 2 ; y++ ) {
-            int xPos = x + i;
-            int yPos = y + j;
-            if (!(x == 0 && y == 0) && xPos > 0 && xPos <= maxX && yPos > 0 && yPos <= maxY && cells[xPos][yPos] == highMontainColor) {
+            xPos = (x + i) % nbCellsWidth;
+            if (xPos < 0) {
+                xPos = maxX;
+            }
+            yPos = (y + j) % nbCellsHeight;
+            if (yPos < 0) {
+                yPos = maxY;
+            }
+            if (cells[xPos][yPos] == highMontainColor) {
                 nbGround++;
             }
         }
@@ -244,12 +251,19 @@ int[][] _getFreeNeighbours(int i, int j)
 {
     int[][] n = new int[9][2];
     int z = 0;
+    int xPos, yPos;
 
     for (int x = -1 ; x < 2 ; x ++ ) {
         for (int y = -1 ; y < 2 ; y ++ ) {
-            int xPos = x + i;
-            int yPos = y + j;
-            if (!(x == 0 && y == 0) && xPos > 0 && xPos <= maxX && yPos > 0 && yPos <= maxY && cells[xPos][yPos] == seaColor) {
+            xPos = (x + i) % nbCellsWidth;
+            if (xPos < 0) {
+                xPos = maxX;
+            }
+            yPos = (y + j) % nbCellsHeight;
+            if (yPos < 0) {
+                yPos = maxY;
+            }
+            if (cells[xPos][yPos] == seaColor) {
                 n[z][0] = xPos;
                 n[z][1] = yPos;
                 z++;
