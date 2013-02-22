@@ -1,5 +1,5 @@
 //size of the dots
-int radius = 8;
+int radius = 10;
 int spacement = 0;
 int width = 1000;
 int height = 1000;
