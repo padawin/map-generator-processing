@@ -1,6 +1,5 @@
 //size of the dots
 int radius = 10;
-int spacement = 0;
 int width = 1000;
 int height = 1000;
 int nbCellsWidth = width / radius;
