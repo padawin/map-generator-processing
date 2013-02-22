@@ -1,17 +1,18 @@
 //size of the dots
-int radius = 8;
-int spacement = 0;
+int radius = 10;
 int width = 1000;
 int height = 1000;
+int nbCellsWidth = width / radius;
+int nbCellsHeight = height / radius;
 
 int nbActiveCells = 50;
-int[][] cells = new int[width / radius][height / radius];
+int[][] cells = new int[nbCellsWidth][nbCellsHeight];
 int[][] activeCells = new int[nbActiveCells][2];
 
 int minX = 0;
 int minY = 0;
-int maxX = width / radius - 2;
-int maxY = height / radius - 2;
+int maxX = nbCellsWidth - 1;
+int maxY = nbCellsHeight - 1;
 
 
 //states codes
@@ -53,8 +54,8 @@ void setup()
     }
 
     for (int act = 0 ; act < nbActiveCells ; act++) {
-        activeCells[act][0] = int(random(width / radius));
-        activeCells[act][1] = int(random(height / radius));
+        activeCells[act][0] = int(random(nbCellsWidth));
+        activeCells[act][1] = int(random(nbCellsHeight));
 
         cells[activeCells[act][0]][activeCells[act][1]] = drawColor;
     }
@@ -224,12 +225,19 @@ int _getDistanceFromTheSea(int i, int j)
 boolean _isSurrounded(int i, int j)
 {
     int nbGround = 0;
+    int xPos, yPos;
 
     for (int x = -1 ; x < 2 ; x++ ) {
         for (int y = -1 ; y < 2 ; y++ ) {
-            int xPos = x + i;
-            int yPos = y + j;
-            if (!(x == 0 && y == 0) && xPos > 0 && xPos <= maxX && yPos > 0 && yPos <= maxY && cells[xPos][yPos] == highMontainColor) {
+            xPos = (x + i) % nbCellsWidth;
+            if (xPos < 0) {
+                xPos = maxX;
+            }
+            yPos = (y + j) % nbCellsHeight;
+            if (yPos < 0) {
+                yPos = maxY;
+            }
+            if (cells[xPos][yPos] == highMontainColor) {
                 nbGround++;
             }
         }
@@ -242,12 +250,19 @@ int[][] _getFreeNeighbours(int i, int j)
 {
     int[][] n = new int[9][2];
     int z = 0;
+    int xPos, yPos;
 
     for (int x = -1 ; x < 2 ; x ++ ) {
         for (int y = -1 ; y < 2 ; y ++ ) {
-            int xPos = x + i;
-            int yPos = y + j;
-            if (!(x == 0 && y == 0) && xPos > 0 && xPos <= maxX && yPos > 0 && yPos <= maxY && cells[xPos][yPos] == seaColor) {
+            xPos = (x + i) % nbCellsWidth;
+            if (xPos < 0) {
+                xPos = maxX;
+            }
+            yPos = (y + j) % nbCellsHeight;
+            if (yPos < 0) {
+                yPos = maxY;
+            }
+            if (cells[xPos][yPos] == seaColor) {
                 n[z][0] = xPos;
                 n[z][1] = yPos;
                 z++;
