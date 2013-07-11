@@ -37,6 +37,9 @@ int landColor = #526F35;
 int lowMontainColor = #1A1A1A;
 int highMontainColor = 0;
 
+int xShift = 0;
+int yShift = 0;
+
 void setup()
 {
     //  stroke(255);
@@ -95,7 +98,6 @@ void draw()
             state = STATE_SAVED;
         }
         else if (state == STATE_SAVED) {
-            noLoop(); // Stops the program
             state = STATE_ENDED;
         }
 
@@ -171,8 +173,14 @@ void _refreshDisplay(boolean full)
     if (full) {
         for (int j = minY ; j <= maxY ; j ++) {
             for (int i = minX ; i <= maxX ; i ++) {
-                posX = i * radius/* - radius / 2*/;
-                posY = j * radius/* - radius / 2*/;
+                posX = (i * radius + xShift) % width;
+                if (posX < 0) {
+                    posX += width;
+                }
+                posY = (j * radius + yShift) % height;
+                if (posY < 0) {
+                    posY += height;
+                }
 
                 fill(cells[i][j]);
 
@@ -295,7 +303,19 @@ int[][] _getFreeNeighbours(int i, int j)
  */
 void keyPressed()
 {
-    if (key == 'r') {
+    if (key == '8') {
+        yShift += radius;
+    }
+    else if (key == '2') {
+        yShift -= radius;
+    }
+    else if (key == '4') {
+        xShift += radius;
+    }
+    else if (key == '6') {
+        xShift -= radius;
+    }
+    else if (key == 'r') {
         setup();
     }
     else if (key == '\n') {
