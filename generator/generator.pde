@@ -205,6 +205,9 @@ int _getDistanceFromTheSea(int i, int j)
     while (!seaIsFound) {
         for (int x = minusBound ; x <= plusBound && !seaIsFound ; x++) {
             for (int y = minusBound ; y <= plusBound && !seaIsFound ; y++ ) {
+                if (x != minusBound && y != minusBound && x != plusBound && y != plusBound) {
+                  continue;
+                }
                 int xPos = x + i;
                 int yPos = y + j;
                 if (xPos > 0 && xPos <= maxX && yPos > 0 && yPos <= maxY && (x == minusBound || x == plusBound || y == minusBound || y == plusBound) && cells[xPos][yPos] == seaColor) {
