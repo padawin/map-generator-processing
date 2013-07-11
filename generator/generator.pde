@@ -19,9 +19,8 @@ int maxY = nbCellsHeight - 1;
 int STATE_PAUSE = 1;
 int STATE_CREATING = 2;
 int STATE_CREATED = 3;
-int STATE_LIFTING = 4;
-int STATE_LIFTED = 5;
-int STATE_COLORED = 6;
+int STATE_SMOOTHED = 5;
+int STATE_LIFTED = 6;
 int STATE_SAVED = 7;
 int STATE_ENDED = 8;
 
@@ -85,13 +84,13 @@ void draw()
         }
         else if (state == STATE_CREATED) {
             displayFull = true;
+            _smooth();
+        }
+        else if (state == STATE_SMOOTHED) {
             _lift();
+            state = STATE_LIFTED;
         }
         else if (state == STATE_LIFTED) {
-            _color();
-            state = STATE_COLORED;
-        }
-        else if (state == STATE_COLORED) {
             _saveFile();
             state = STATE_SAVED;
         }
@@ -105,9 +104,9 @@ void draw()
     }
 }
 
-void _lift()
+void _smooth()
 {
-    state = STATE_LIFTED;
+    state = STATE_SMOOTHED;
     for (int j = minY ; j <= maxY ; j ++) {
         for (int i = minX ; i <= maxX ; i ++) {
             if (cells[i][j] == seaColor && _isSurrounded(i, j)) {
@@ -119,7 +118,7 @@ void _lift()
     }
 }
 
-void _color()
+void _lift()
 {
     for (int j = minY ; j <= maxY ; j ++) {
         for (int i = minX ; i <= maxX ; i ++) {
